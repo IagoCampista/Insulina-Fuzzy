@@ -1,4 +1,5 @@
 #include <stdio.h>
+#define QTD_REGRAS 13
 
 double baixa(double num)
 {
@@ -88,12 +89,45 @@ double menor_3(double x1, double x2, double x3)
               return x3;
        return menor;
 }
+
+double maior_3(double x1, double x2, double x3)
+{
+       double maior = x1;
+       if (x2 > maior)
+              maior = x2;
+       if (x3 > maior)
+              return x3;
+       return maior;
+}
+
+double inv_baixa_insulina(double y)
+{
+       if (y == 0)
+              return 0;
+       return (-4 * y) + 4;
+}
+
+double inv_moderada_insulina(double y)
+{
+       if (y == 0)
+              return 0;
+       double x1, x2;
+       x1 = (4 * y) + 2;
+       x2 = (-4 * y) + 10;
+       return (x1 + x2) / 2;
+}
+
+double inv_alta_insulina(double y)
+{
+       if (y == 0)
+              return 0;
+       return (4 * y) + 8;
+}
+
 int main()
 {
        double glicose, taxa_glicose, carboidrato;
-       double regras[10][1];
-
-       printf("%lf\n", menor_3(1, 0, 3));
+       double regras[QTD_REGRAS][2];
 
        printf("Digite os dados para Nivel de Glicose [0 ; 210]:  ");
        scanf("%lf", &glicose);
@@ -127,9 +161,72 @@ int main()
        printf("%lf - %lf %lf %lf\n", regras[8][0], alta(glicose), decaindo(taxa_glicose), grande(carboidrato));
        regras[9][0] = menor_3(normal(glicose), aumentando(taxa_glicose), pequena(carboidrato));
        printf("%lf - %lf %lf %lf\n", regras[9][0], normal(glicose), aumentando(taxa_glicose), pequena(carboidrato));
+       // Se Glicose é alta ou Variação da Glicose é aumentando, então Insulina é alta.
+       regras[10][0] = maior_3(alta(glicose), aumentando(taxa_glicose), -1);
+       printf("%lf - %lf %lf \n", regras[10][0], alta(glicose), aumentando(taxa_glicose));
+       // Se Glicose é baixa ou Variação da Glicose é decaindo, então Insulina é baixa.
+       regras[11][0] = maior_3(baixa(glicose), decaindo(taxa_glicose), -1);
+       printf("%lf - %lf %lf \n", regras[11][0], baixa(glicose), decaindo(taxa_glicose));
+       // Se (Glicose é normal e Variação da Glicose é aumentando) ou Ingestão de Carboidrato é pequena, então Insulina é moderada.
+       regras[12][0] = maior_3((menor_3(normal(glicose), aumentando(taxa_glicose), 10)), pequena(carboidrato), -1);
+       printf("%lf - %lf %lf %lf\n", regras[12][0], normal(glicose), aumentando(taxa_glicose), pequena(carboidrato));
 
-       for (int i = 0; i < 10; i++)
+       printf("\n\n");
+
+       printf("aqui vai o final\n\n");
+
+       regras[0][1] = inv_baixa_insulina(regras[0][0]);
+       printf("%lf - %lf  - baixa \n", regras[0][0], regras[0][1]);
+
+       regras[1][1] = inv_moderada_insulina(regras[1][0]);
+       printf("%lf - %lf - moderada \n", regras[1][0], regras[1][1]);
+
+       regras[2][1] = inv_alta_insulina(regras[2][0]);
+       printf("%lf - %lf - alta\n", regras[2][0], regras[2][1]);
+
+       regras[3][1] = inv_alta_insulina(regras[3][0]);
+       printf("%lf - %lf - alta\n", regras[3][0], regras[3][1]);
+
+       regras[4][1] = inv_moderada_insulina(regras[4][0]);
+       printf("%lf - %lf - moderada\n", regras[4][0], regras[4][1]);
+
+       regras[5][1] = inv_alta_insulina(regras[5][0]);
+       printf("%lf - %lf - alta \n", regras[5][0], regras[5][1]);
+
+       regras[6][1] = inv_baixa_insulina(regras[6][0]);
+       printf("%lf - %lf - baixa\n", regras[6][0], regras[6][1]);
+
+       regras[7][1] = inv_baixa_insulina(regras[7][0]);
+       printf("%lf - %lf - baixa\n", regras[7][0], regras[7][1]);
+
+       regras[8][1] = inv_moderada_insulina(regras[8][0]);
+       printf("%lf - %lf - moderada\n", regras[8][0], regras[8][1]);
+
+       regras[9][1] = inv_alta_insulina(regras[9][0]);
+       printf("%lf - %lf - alta\n", regras[9][0], regras[9][1]);
+
+       regras[10][1] = inv_alta_insulina(regras[10][0]);
+       printf("%lf - %lf - alta\n", regras[10][0], regras[10][1]);
+
+       regras[11][1] = inv_baixa_insulina(regras[11][0]);
+       printf("%lf - %lf - baixa\n", regras[11][0], regras[11][1]);
+
+       regras[12][1] = inv_moderada_insulina(regras[12][0]);
+       printf("%lf - %lf - moderada\n\n\n", regras[12][0], regras[12][1]);
+
+       double numerador = 0;
+       double denominador = 0;
+       double doses = 0;
+
+       for (int i = 0; i < QTD_REGRAS; i++)
        {
-              printf("%lf \n", regras[i][0]);
+              if (regras[i][0] != 0)
+              {
+                     numerador = numerador + (regras[i][0] * regras[i][1]);
+                     denominador = denominador + regras[i][0];
+              }
        }
+       doses = (numerador / denominador);
+
+       printf("\n\nDoses: %lf \n", doses);
 }
