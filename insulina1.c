@@ -140,33 +140,56 @@ int main()
        printf("O taxa de variacao de glicose %lf tem as seguintes pertinencias:\n %lf - decaindo: \n %lf - estavel \n %lf - aumentando \n\n", taxa_glicose, decaindo(taxa_glicose), estavel(taxa_glicose), aumentando(taxa_glicose));
        printf("O quantidade de carboidrato %lf tem as seguintes pertinencias:\n %lf - baixa \n %lf - moderada \n %lf - alta\n\n", carboidrato, pequena(carboidrato), media(carboidrato), grande(carboidrato));
 
-       // R1
+       // Se o nível de glicose é Baixo E a variação é Decaindo E os carboidratos ingeridos são Pequena, ENTÃO a dose de insulina é Baixa.
        regras[0][0] = menor_3(baixa(glicose), decaindo(taxa_glicose), pequena(carboidrato));
        printf("%lf - %lf %lf %lf\n", regras[0][0], baixa(glicose), decaindo(taxa_glicose), pequena(carboidrato));
+
+       //Se o nível de glicose é Normal E a variação é Estável E os carboidratos ingeridos são Grande, ENTÃO a dose de insulina é Moderada.
        regras[1][0] = menor_3(normal(glicose), estavel(taxa_glicose), grande(carboidrato));
        printf("%lf - %lf %lf %lf\n", regras[1][0], normal(glicose), estavel(taxa_glicose), grande(carboidrato));
+
+       //Se o nível de glicose é Alto E a variação é Estável, ENTÃO a dose de insulina é Alta.
        regras[2][0] = menor_3(10, alta(glicose), estavel(taxa_glicose));
        printf("%lf - %d %lf %lf\n", regras[2][0], 10, alta(glicose), estavel(taxa_glicose));
+
+       //Se o nível de glicose é Alto E a variação é Aumentando E os carboidratos ingeridos são Média, ENTÃO a dose de insulina é Alta.
        regras[3][0] = menor_3(alta(glicose), aumentando(taxa_glicose), media(carboidrato));
        printf("%lf - %lf %lf %lf\n", regras[3][0], alta(glicose), aumentando(taxa_glicose), media(carboidrato));
+
+       //Se o nível de glicose é Normal E os carboidratos ingeridos são Média, ENTÃO a dose de insulina é Moderada.
        regras[4][0] = menor_3(10, normal(glicose), media(carboidrato));
        printf("%lf - %d %lf %lf\n", regras[4][0], 10, normal(glicose), media(carboidrato));
+
+       //Se a variação é Aumentando E os carboidratos ingeridos são Grande, ENTÃO a dose de insulina é Alta.
        regras[5][0] = menor_3(10, aumentando(taxa_glicose), grande(carboidrato));
        printf("%lf - %d %lf %lf\n", regras[5][0], 10, aumentando(taxa_glicose), grande(carboidrato));
+
+       //Se o nível de glicose é Baixo E a variação é Estável E os carboidratos ingeridos são Grande, ENTÃO a dose de insulina é Baixa.
        regras[6][0] = menor_3(baixa(glicose), estavel(taxa_glicose), grande(carboidrato));
        printf("%lf - %lf %lf %lf\n", regras[6][0], baixa(glicose), estavel(taxa_glicose), grande(carboidrato));
+
+       //Se o nível de glicose é Normal E a variação é Aumentando E os carboidratos ingeridos são Pequena, ENTÃO a dose de insulina é Baixa.
        regras[7][0] = menor_3(normal(glicose), aumentando(taxa_glicose), pequena(carboidrato));
        printf("%lf - %lf %lf %lf\n", regras[7][0], normal(glicose), aumentando(taxa_glicose), pequena(carboidrato));
+
+       //Se o nível de glicose é Alto E a variação é Decaindo E os carboidratos ingeridos são Grande, ENTÃO a dose de insulina é Moderada.
        regras[8][0] = menor_3(alta(glicose), decaindo(taxa_glicose), grande(carboidrato));
        printf("%lf - %lf %lf %lf\n", regras[8][0], alta(glicose), decaindo(taxa_glicose), grande(carboidrato));
+
+       //Se o nível de glicose é Normal E a variação é Aumentando rapidamente E os carboidratos ingeridos são Pequena, ENTÃO a dose de insulina é Alta.
        regras[9][0] = menor_3(normal(glicose), aumentando(taxa_glicose), pequena(carboidrato));
        printf("%lf - %lf %lf %lf\n", regras[9][0], normal(glicose), aumentando(taxa_glicose), pequena(carboidrato));
+
        // Se Glicose é alta ou Variação da Glicose é aumentando, então Insulina é alta.
        regras[10][0] = maior_3(alta(glicose), aumentando(taxa_glicose), -1);
        printf("%lf - %lf %lf \n", regras[10][0], alta(glicose), aumentando(taxa_glicose));
+
+
        // Se Glicose é baixa ou Variação da Glicose é decaindo, então Insulina é baixa.
        regras[11][0] = maior_3(baixa(glicose), decaindo(taxa_glicose), -1);
        printf("%lf - %lf %lf \n", regras[11][0], baixa(glicose), decaindo(taxa_glicose));
+
+
        // Se (Glicose é normal e Variação da Glicose é aumentando) ou Ingestão de Carboidrato é pequena, então Insulina é moderada.
        regras[12][0] = maior_3((menor_3(normal(glicose), aumentando(taxa_glicose), 10)), pequena(carboidrato), -1);
        printf("%lf - %lf %lf %lf\n", regras[12][0], normal(glicose), aumentando(taxa_glicose), pequena(carboidrato));
