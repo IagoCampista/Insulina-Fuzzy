@@ -196,10 +196,10 @@ int main()
 
        printf("\n\n");
 
-       printf("aqui vai o final\n\n");
+       printf("Defuzzyficando\n\n");
 
        regras[0][1] = inv_baixa_insulina(regras[0][0]);
-       printf("%lf - %lf  - baixa \n", regras[0][0], regras[0][1]);
+       printf("%lf - %lf - baixa \n", regras[0][0], regras[0][1]);
 
        regras[1][1] = inv_moderada_insulina(regras[1][0]);
        printf("%lf - %lf - moderada \n", regras[1][0], regras[1][1]);
